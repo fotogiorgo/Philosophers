@@ -1,0 +1,3 @@
+usleep probably doesnt sleep correct amount of time (make my own sleep?)
+prints are mixed Up (maybe need to add a mutex around the prints)
+didnt implement the times_to_eat
