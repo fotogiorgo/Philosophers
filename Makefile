@@ -6,13 +6,13 @@
 #    By: jofoto < jofoto@student.hive.fi >          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/11 14:00:27 by jofoto            #+#    #+#              #
-#    Updated: 2023/06/11 14:03:54 by jofoto           ###   ########.fr        #
+#    Updated: 2023/06/11 15:08:19 by jofoto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FLAGS =		-Wall -Wextra -Werror -pthread
 
-SRC =		src/main.c
+SRC =		src/main.c src/helpers.c src/init.c src/process.c
 
 OBJ =		$(SRC:%.c=%.o)
 

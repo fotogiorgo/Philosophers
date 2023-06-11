@@ -6,11 +6,11 @@
 /*   By: jofoto < jofoto@student.hive.fi >          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 13:52:08 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/11 13:58:26 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/11 18:38:42 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 long	get_time()
 {
@@ -33,14 +33,17 @@ long	get_time()
 	}
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
-	t_info	*info;
+	t_info	info;
 	t_philo	*head;
 
-	init_info(info);
-	init_philo(&head, info);
-	start_process(head);
-	destroy_info(info);
-	destroy_philo(&head);
+	head = 0;
+	if (!get_info(&info, argc, argv))
+		return (0);
+	if (!init_philo(&head, &info))
+		return (1);
+	start_process(head, info);
+	//destroy_info(info);
+	//destroy_philo(&head); // make it return 0 on success
 }
