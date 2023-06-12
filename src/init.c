@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jofoto < jofoto@student.hive.fi >          +#+  +:+       +#+        */
+/*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 14:12:05 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/11 20:31:19 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/12 18:02:58 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	init_philo(t_philo	**head, t_info *info)
 		i++;
 	}
 	ft_lstlast(*head)->next = *head;
+	return (1);
 }
 
 int	get_info(t_info *info, int argc, char **argv)

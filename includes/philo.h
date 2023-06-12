@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jofoto < jofoto@student.hive.fi >          +#+  +:+       +#+        */
+/*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 15:10:04 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/11 20:10:23 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/12 18:49:05 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#ifdef PHILO_H
-//# define PHILO_H
+#ifndef PHILO_H
+# define PHILO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <pthread.h>
-#define EATING (str[3] == 'e')
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
+# define EATING (str[3] == 'e')
+# define PHILO_ALIVE (head->info->ms_to_die - (get_time() - head->last_meal))
 
 typedef struct	s_info
 {
@@ -56,4 +57,4 @@ t_philo	*ft_lstlast(t_philo *lst);
 int	get_info(t_info *info, int argc, char **argv);
 int	init_philo(t_philo	**head, t_info *info);
 
-//#endif
+#endif

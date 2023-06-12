@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jofoto < jofoto@student.hive.fi >          +#+  +:+       +#+        */
+/*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:07:45 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/11 21:19:17 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/12 19:53:51 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ void	my_sleep(int ms)
 
 	time_stamp = get_time();
 	while (get_time() - time_stamp < ms)
-	{
 		usleep(500);
-	}
 }
 
 void	print_state(t_philo *philo, char *str)
 {
-	//pthread_mutex_lock(&mutex);
 	if(EATING)
 		philo->last_meal = get_time();
+	pthread_mutex_lock(&mutex);
 	printf("%lu %i %s\n", get_time(), philo->id, str);
-	//pthread_mutex_unlock(&mutex);
+	if(str[0] == 'd')
+		return ;
+	pthread_mutex_unlock(&mutex);
 }
 
 void	eat(t_philo	*philo)
@@ -41,7 +41,7 @@ void	eat(t_philo	*philo)
 	pthread_mutex_lock(&philo->next->fork);
 	print_state(philo, "has taken a fork");
 	print_state(philo, "is eating");
-	usleep(philo->info->ms_to_eat * 1000);
+	my_sleep(philo->info->ms_to_eat);
 	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo->next->fork);
 }
@@ -55,7 +55,7 @@ void	*routine(void	*data)
 	{
 		eat(self);
 		print_state(self, "is sleeping");
-		usleep(self->info->ms_to_sleep * 1000);
+		my_sleep(self->info->ms_to_sleep);
 		print_state(self, "is thinking");
 	}
 }
@@ -79,9 +79,9 @@ void	start_process(t_philo *head, t_info info)
 		pthread_detach(head->thread);
 		head = head->next;
 		i++;
-		usleep(50);
+		usleep(25);
 	}
-	while(philo_alive(head))
+	while((PHILO_ALIVE) >= 0)
 		head = head->next;
 	print_state(head, "died\n");
 }
