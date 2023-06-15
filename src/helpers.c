@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jofoto < jofoto@student.hive.fi >          +#+  +:+       +#+        */
+/*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 14:28:09 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/11 15:18:19 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/15 14:24:24 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
 
 t_philo	*ft_lstlast(t_philo *lst)
 {

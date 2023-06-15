@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 15:10:04 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/12 18:49:05 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/15 14:22:41 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,21 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
-# define EATING (str[3] == 'e')
-# define PHILO_ALIVE (head->info->ms_to_die - (get_time() - head->last_meal))
 
-typedef struct	s_info
+typedef struct s_info
 {
-	int	ms_to_eat;
-	int	ms_to_die;
-	int	ms_to_sleep;
-	int	times_to_eat;
-	int	philos_amount;
+	int					ms_to_eat;
+	int					ms_to_die;
+	int					ms_to_sleep;
+	int					times_to_eat;
+	int					philos_amount;
+	pthread_mutex_t		philos_amount_mutex;
+	pthread_mutex_t		print_mutex;
 }				t_info;
 
-
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int					id;
-	int					stop;
 	long				last_meal;
 	pthread_t			thread;
 	pthread_mutex_t		fork;
@@ -45,8 +43,11 @@ typedef struct	s_philo
 
 //process
 void	start_process(t_philo *head, t_info info);
-long	get_time();
-
+void	*odd_philo(void *data);
+void	*even_philo(void *data);
+long	get_time(void);
+void	print_state(t_philo *philo, char *str);
+void	my_sleep(int ms);
 
 //helpers
 int		ft_atoi(const char *str);
@@ -54,7 +55,9 @@ void	ft_lstadd_back(t_philo **lst, t_philo *new);
 t_philo	*ft_lstlast(t_philo *lst);
 
 //init
-int	get_info(t_info *info, int argc, char **argv);
-int	init_philo(t_philo	**head, t_info *info);
+int		init_info(t_info *info, int argc, char **argv);
+int		init_philo(t_philo	**head, t_info *info);
+int		destroy_philo(t_philo	**head, t_info info);
+void	destroy_info(t_info *info);
 
 #endif

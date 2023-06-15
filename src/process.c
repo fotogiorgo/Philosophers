@@ -6,13 +6,11 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:07:45 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/12 19:53:51 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/15 14:28:13 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-static pthread_mutex_t	mutex;
 
 void	my_sleep(int ms)
 {
@@ -25,63 +23,55 @@ void	my_sleep(int ms)
 
 void	print_state(t_philo *philo, char *str)
 {
-	if(EATING)
+	if (str[3] == 'e')
 		philo->last_meal = get_time();
-	pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(&philo->info->print_mutex);
 	printf("%lu %i %s\n", get_time(), philo->id, str);
-	if(str[0] == 'd')
+	if (str[0] == 'd')
 		return ;
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&philo->info->print_mutex);
 }
 
-void	eat(t_philo	*philo)
+int	philo_alive_and_eaten(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->fork);
-	print_state(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->next->fork);
-	print_state(philo, "has taken a fork");
-	print_state(philo, "is eating");
-	my_sleep(philo->info->ms_to_eat);
-	pthread_mutex_unlock(&philo->fork);
-	pthread_mutex_unlock(&philo->next->fork);
-}
-
-void	*routine(void	*data)
-{
-	t_philo	*self;
-
-	self = (t_philo*)data;
-	while(1)
-	{
-		eat(self);
-		print_state(self, "is sleeping");
-		my_sleep(self->info->ms_to_sleep);
-		print_state(self, "is thinking");
-	}
+	pthread_mutex_lock(&philo->info->philos_amount_mutex);
+	if (((philo->info->ms_to_die - (get_time() - philo->last_meal) < 0)
+			&& philo->id) || philo->info->philos_amount == 0)
+		return (0);
+	pthread_mutex_unlock(&philo->info->philos_amount_mutex);
+	return (1);
 }
 
 int	philo_alive(t_philo *philo)
 {
-	//printf("%i\n", philo->info->ms_to_die - (get_time() - philo->last_meal));
-	return(philo->info->ms_to_die - (get_time() - philo->last_meal));
+	if ((philo->info->ms_to_die - (get_time() - philo->last_meal) >= 0))
+		return (1);
+	return (0);
 }
 
-void	start_process(t_philo *head, t_info info)
+void	start_process(t_philo *philo, t_info info)
 {
-	int	i;
+	int		i;
+	void	*(*func_ptr[2])(void *);
+	int		(*check_state)(t_philo *philo);
 
+	func_ptr[0] = &even_philo;
+	func_ptr[1] = &odd_philo;
+	if (info.times_to_eat > 0)
+		check_state = &philo_alive_and_eaten;
+	else
+		check_state = &philo_alive;
 	i = 0;
 	get_time();
-	pthread_mutex_init(&mutex, NULL);
-	while(i < info.philos_amount)
+	while (i < info.philos_amount)
 	{
-		pthread_create(&head->thread, NULL, &routine, head);
-		pthread_detach(head->thread);
-		head = head->next;
+		pthread_create(&philo->thread, NULL, func_ptr[philo->id % 2], philo);
+		pthread_detach(philo->thread);
+		philo = philo->next;
 		i++;
-		usleep(25);
 	}
-	while((PHILO_ALIVE) >= 0)
-		head = head->next;
-	print_state(head, "died\n");
+	while (check_state(philo))
+		philo = philo->next;
+	if (philo->info->philos_amount)
+		print_state(philo, "died");
 }
