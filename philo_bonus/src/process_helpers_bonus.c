@@ -1,16 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   process_helpers_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/11 13:52:08 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/15 14:26:57 by jofoto           ###   ########.fr       */
+/*   Created: 2023/06/21 13:17:43 by jofoto            #+#    #+#             */
+/*   Updated: 2023/06/21 17:04:38 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../includes/philo_bonus.h"
+
+void	my_sleep(int ms)
+{
+	long	time_stamp;
+
+	time_stamp = get_time();
+	while (get_time() - time_stamp < ms)
+		usleep(500);
+}
+
+void	print_state(t_philo *philo, char *str)
+{
+	sem_wait(philo->info->print_sem);
+	if (str[3] == 'e')
+		philo->last_meal = get_time();
+	printf("%lu %i %s\n", get_time(), philo->id, str);
+	if (str[0] == 'd')
+		return ;
+	sem_post(philo->info->print_sem);
+}
 
 long	get_time(void)
 {
@@ -33,23 +53,4 @@ long	get_time(void)
 		1000 + start_timestamp.tv_usec / 1000;
 		return (0);
 	}
-}
-
-int	main(int argc, char **argv)
-{
-	t_info	info;
-	t_philo	*head;
-
-	head = NULL;
-	if (!init_info(&info, argc, argv))
-		return (0);
-	if (!init_philo(&head, &info))
-	{
-		destroy_info(&info);
-		return (1);
-	}
-	start_process(head, info);
-	destroy_info(&info);
-	head->id = 1;
-	destroy_philo(&(head), info);
 }

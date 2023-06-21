@@ -6,18 +6,18 @@
 #    By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/11 14:00:27 by jofoto            #+#    #+#              #
-#    Updated: 2023/06/15 14:14:53 by jofoto           ###   ########.fr        #
+#    Updated: 2023/06/21 13:18:43 by jofoto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FLAGS =		-Wall -Wextra -Werror -pthread -fsanitize=address
+FLAGS =		-Wall -Wextra -Werror -pthread #-fsanitize=address
 
-SRC =		src/main.c src/helpers.c src/init.c src/process.c \
-			src/odd_philo.c src/even_philo.c
+SRC =		src/main_bonus.c src/init_helpers_bonus.c src/init_bonus.c src/philosophers_bonus.c \
+			src/destroy_bonus.c src/process_helpers_bonus.c
 
 OBJ =		$(SRC:%.c=%.o)
 
-NAME =		philo
+NAME =		philo_bonus
 
 all: $(NAME)
 
