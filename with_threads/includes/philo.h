@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 15:10:04 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/21 13:27:05 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/21 18:21:24 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	*even_philo(void *data);
 long	get_time(void);
 void	print_state(t_philo *philo, char *str);
 void	my_sleep(int ms);
+int		philo_alive(t_philo *philo);
 
 //helpers
 int		ft_atoi(const char *str);

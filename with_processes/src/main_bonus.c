@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 13:52:08 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/21 17:20:04 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:41:08 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	start_process(t_philo *philo, t_info info)
 
 void	*wait_eaten(void *data)
 {
-	sem_t	*death_sem;
+	sem_t	*stop_sem;
 
-	death_sem = (sem_t *)data;
+	stop_sem = (sem_t *)data;
 	while (wait(NULL) > 0)
 		;
-	sem_post(death_sem);
+	sem_post(stop_sem);
 	return (NULL);
 }
 
@@ -71,8 +71,8 @@ int	main(int argc, char **argv)
 		return (3);
 	}
 	start_process(philo, info);
-	if (start_eaten_check(info.death_sem))
-		sem_wait(info.death_sem);
+	if (start_eaten_check(info.stop_sem))
+		sem_wait(info.stop_sem);
 	kill_processes(philo);
 	destroy_semaphores();
 	destroy_philo(&philo);

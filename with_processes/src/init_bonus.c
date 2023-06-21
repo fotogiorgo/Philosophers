@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 14:12:05 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/21 17:01:37 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:41:08 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	init_semaphores(t_info *info)
 							S_IRUSR | S_IWUSR, 0);
 	info->print_sem = sem_open(PRINT_SEM, O_CREAT | O_EXCL, \
 							S_IRUSR | S_IWUSR, 1);
-	info->death_sem = sem_open(DEATH_SEM, O_CREAT | O_EXCL, \
+	info->stop_sem = sem_open(DEATH_SEM, O_CREAT | O_EXCL, \
 							S_IRUSR | S_IWUSR, 0);
 	if (info->forks == SEM_FAILED || \
 		info->even_eat == SEM_FAILED || info->print_sem == SEM_FAILED)

@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 15:07:45 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/21 17:27:19 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:27:21 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	my_sleep(int ms)
 
 void	print_state(t_philo *philo, char *str)
 {
-	pthread_mutex_lock(&philo->info->print_mutex);
+	if (pthread_mutex_lock(&philo->info->print_mutex) != 0)
+		return ;
 	if (str[3] == 'e')
 		philo->last_meal = get_time();
 	printf("%lu %i %s\n", get_time(), philo->id, str);

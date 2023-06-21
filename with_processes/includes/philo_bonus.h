@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 15:10:04 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/21 13:25:45 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:41:08 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define FORK_SEM "fork_sem"
 # define EVEN_EAT_SEM "even_eat"
 # define PRINT_SEM "print_sem"
-# define DEATH_SEM "death_sem"
+# define DEATH_SEM "stop_sem"
 
 typedef struct s_info
 {
@@ -34,7 +34,7 @@ typedef struct s_info
 	int					times_to_eat;
 	int					philos_amount;
 	sem_t				*print_sem;
-	sem_t				*death_sem;
+	sem_t				*stop_sem;
 	sem_t				*forks;
 	sem_t				*even_eat;
 }				t_info;

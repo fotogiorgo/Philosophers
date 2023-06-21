@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:17:06 by jofoto            #+#    #+#             */
-/*   Updated: 2023/06/21 17:19:46 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/06/21 19:41:08 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	*death_monitoring(void	*data)
 	while ((philo->info->ms_to_die - (get_time() - philo->last_meal) >= 0))
 		usleep(1000);
 	print_state(philo, "died");
-	sem_post(philo->info->death_sem);
+	sem_post(philo->info->stop_sem);
 	return (NULL);
 }
 
@@ -49,7 +49,7 @@ void	odd_philo(t_philo *self)
 	ms_to_sleep = self->info->ms_to_sleep;
 	if (pthread_create(&self->thread, NULL, death_monitoring, self) != 0)
 	{
-		sem_post(self->info->death_sem);
+		sem_post(self->info->stop_sem);
 		exit(0);
 	}
 	pthread_detach(self->thread);
@@ -78,7 +78,7 @@ void	even_philo(t_philo *self)
 	ms_to_sleep = self->info->ms_to_sleep;
 	if (pthread_create(&self->thread, NULL, death_monitoring, self) != 0)
 	{
-		sem_post(self->info->death_sem);
+		sem_post(self->info->stop_sem);
 		exit(0);
 	}
 	pthread_detach(self->thread);
