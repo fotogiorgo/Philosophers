@@ -21,6 +21,6 @@ This problem aims to illustrate [Concurrency](https://en.wikipedia.org/wiki/Conc
 
 The problem was solved in two separate ways:
 
-1. Using ***threads*** for synchronous operations between philosophers and ***mutexes*** to ensure proper use of the resources.
+1. Using ***Threads*** for synchronous operations between philosophers and ***Mutexes*** to ensure proper use of the resources.
 
-2. Using ***Processes***(forks) and ***semaphores***, for the same reasons, respectively.
+2. Using ***Processes***(forks) and ***Semaphores***, for the same reasons, respectively.
